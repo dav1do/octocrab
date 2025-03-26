@@ -11,6 +11,8 @@ pub struct ReleaseEventPayload {
     pub release: Release,
     /// The changes to body or name if this event is of type [`ReleaseEventAction::Edited`].
     pub changes: Option<ReleaseEventChanges>,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 /// The change which occurred in an event of type [`ReleaseEventAction::Edited`].
@@ -28,6 +30,8 @@ pub enum ReleaseEventChanges {
 #[non_exhaustive]
 pub struct ReleaseEventChangesFrom {
     pub from: String,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 /// The action on a release this event corresponds to.

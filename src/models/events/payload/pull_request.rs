@@ -13,6 +13,8 @@ pub struct PullRequestEventPayload {
     pub pull_request: PullRequest,
     /// The changes to body or title if this event is of type [`PullRequestEventAction::Edited`].
     pub changes: Option<PullRequestChanges>,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 /// The action on a pull request this event corresponds to.
@@ -49,6 +51,8 @@ pub enum PullRequestEventAction {
 pub struct PullRequestChanges {
     pub title: Option<PullRequestEventChangesFrom>,
     pub body: Option<PullRequestEventChangesFrom>,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 /// The previous value of the item (either the body or title) of a pull request which has changed. Only
@@ -108,6 +112,7 @@ mod test {
                     from: "test".to_owned()
                 }),
                 body: None,
+                other: std::collections::HashMap::new(),
             },
         );
     }
@@ -127,6 +132,7 @@ mod test {
                 body: Some(PullRequestEventChangesFrom {
                     from: "test".to_owned()
                 }),
+                other: std::collections::HashMap::new(),
             },
         );
     }
@@ -140,6 +146,7 @@ mod test {
             PullRequestChanges {
                 title: None,
                 body: None,
+                other: std::collections::HashMap::new(),
             },
         );
     }

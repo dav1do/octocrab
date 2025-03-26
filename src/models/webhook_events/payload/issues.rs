@@ -14,6 +14,8 @@ pub struct IssuesWebhookEventPayload {
     pub milestone: Option<Milestone>,
     pub label: Option<Label>,
     pub changes: Option<IssuesWebhookEventChanges>,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -44,4 +46,6 @@ pub struct IssuesWebhookEventChanges {
     pub body: Option<OldValue<String>>,
     pub title: Option<OldValue<String>>,
     pub assignee: Option<OldValue<Author>>,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }

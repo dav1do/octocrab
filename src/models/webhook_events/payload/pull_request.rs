@@ -17,6 +17,8 @@ pub struct PullRequestWebhookEventPayload {
     pub before: Option<String>,
     pub requested_reviewer: Option<Author>,
     pub requested_team: Option<RequestedTeam>,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

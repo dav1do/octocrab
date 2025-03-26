@@ -5,6 +5,8 @@ use serde::{Deserialize, Serialize};
 pub struct CheckRunWebhookEventPayload {
     pub action: CheckRunWebhookEventAction,
     pub check_run: serde_json::Value,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

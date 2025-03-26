@@ -14,6 +14,8 @@ pub struct PushEventPayload {
     pub head: String,
     pub before: String,
     pub commits: Vec<Commit>,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[cfg(test)]

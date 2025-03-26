@@ -21,6 +21,8 @@ pub struct IssuesEventPayload {
     /// Set when the type is [`IssuesEventAction::Labeled`] or
     /// [`IssuesEventAction::Unlabeled`].
     pub label: Option<Label>,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 /// The change which occurred in an event of type [`IssuesEventAction::Edited`].
@@ -38,6 +40,8 @@ pub enum IssuesEventChanges {
 #[non_exhaustive]
 pub struct IssuesEventChangesFrom {
     pub from: String,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 /// The action on an issue this event corresponds to.
@@ -95,7 +99,8 @@ mod test {
         assert_eq!(
             deserialized,
             IssuesEventChanges::Title(IssuesEventChangesFrom {
-                from: "test".to_owned()
+                from: "test".to_owned(),
+                other: std::collections::HashMap::new(),
             })
         );
     }
@@ -111,7 +116,8 @@ mod test {
         assert_eq!(
             deserialized,
             IssuesEventChanges::Body(IssuesEventChangesFrom {
-                from: "test".to_owned()
+                from: "test".to_owned(),
+                other: std::collections::HashMap::new(),
             })
         );
     }

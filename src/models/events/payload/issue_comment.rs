@@ -14,6 +14,8 @@ pub struct IssueCommentEventPayload {
     /// The changes to the body of the issue comment if
     /// this event is of type [`IssueCommentEventAction::Edited`].
     pub changes: Option<IssueCommentEventChanges>,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 /// The change which occurred in an event of type [`IssueCommentEventAction::Edited`].
@@ -30,6 +32,8 @@ pub enum IssueCommentEventChanges {
 #[non_exhaustive]
 pub struct IssueCommentEventChangesFrom {
     pub from: String,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 /// The action on an issue comment this event corresponds to.
@@ -74,7 +78,8 @@ mod test {
         assert_eq!(
             deserialized,
             IssueCommentEventChanges::Body(IssueCommentEventChangesFrom {
-                from: "test".to_owned()
+                from: "test".to_owned(),
+                other: std::collections::HashMap::new(),
             })
         );
     }

@@ -19,6 +19,8 @@ pub struct InstallationEventPayload {
     pub repositories: Vec<InstallationEventRepository>,
     /// The initiator of the request, mainly for the [`created`](InstallationAction::Created) action
     pub requester: Option<Author>,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 /// The action on an installation this event corresponds to.

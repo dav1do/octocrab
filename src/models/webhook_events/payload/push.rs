@@ -19,6 +19,8 @@ pub struct PushWebhookEventPayload {
     pub head_commit: Option<PushWebhookEventCommit>,
     pub pusher: GitUserTime,
     pub r#ref: String,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -38,4 +40,6 @@ pub struct PushWebhookEventCommit {
     pub timestamp: DateTime<Utc>,
     pub tree_id: String,
     pub url: Url,
+    #[serde(flatten)]
+    pub other: std::collections::HashMap<String, serde_json::Value>,
 }
