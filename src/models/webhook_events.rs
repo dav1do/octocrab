@@ -90,6 +90,20 @@ pub struct WebhookEvent {
 }
 
 impl WebhookEvent {
+    /// Deserialize the body of a webhook event according to the category in the header of the request
+    pub fn from_response<B>(response: &http::Response<B>) -> Result<Self, serde_json::Error>
+    where
+        B: AsRef<[u8]>,
+    {
+        let event_type = response
+            .headers()
+            .get("X-GitHub-Event")
+            .and_then(|h| h.to_str().ok())
+            .expect("X-GitHub-Event header is missing"); // TODO: an error variant
+
+        Self::try_from_header_and_body(&event_type, response.body())
+    }
+
     /// Deserialize the body of a webhook event according to the category in the header of the request.
     pub fn try_from_header_and_body<B>(header: &str, body: &B) -> Result<Self, serde_json::Error>
     where
